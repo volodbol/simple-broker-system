@@ -45,7 +45,10 @@ public class OrderController {
 
     @GetMapping("/{id}/agreements")
     public String getOrderAgreements(@PathVariable(name = "id") Long orderId, Model model) {
-        model.addAttribute("agreements", orderAgreementService.findAllByMainOrder(orderId));
+        Order order = orderService.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find order with id - " + orderId));
+        model.addAttribute("orderType", orderService.getOppositeOrderType(order));
+        model.addAttribute("agreements", orderAgreementService.findAllByOrder(order));
         return "order-agreements";
     }
 
