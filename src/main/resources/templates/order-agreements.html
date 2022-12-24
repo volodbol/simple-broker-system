@@ -17,21 +17,23 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Login</th>
-                <th>Instrument</th>
-                <th>Amount</th>
-                <th>Price</th>
-                <th>Performed</th>
-                <th>Date</th>
+                <th scope="col">Order type</th>
+                <th scope="col">Instrument</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Price</th>
+                <th scope="col">Performed</th>
+                <th scope="col">Canceled</th>
+                <th scope="col">Date</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="agreement : ${agreements}">
-                <th scope="row" th:text="${agreement.applicationUser.login}">login</th>
-                <td th:text="${agreement.proposedOrder.orderInstrument.instrumentName}">name</td>
-                <td th:text="${agreement.proposedOrder.amount}">amount</td>
-                <td th:text="${agreement.proposedOrder.price}">price</td>
+                <th scope="row" th:text="${orderType}">order type name</th>
+                <td th:text="${agreement.firstOrder.orderInstrument.instrumentName}">name</td>
+                <td th:text="${agreement.firstOrder.amount}">amount</td>
+                <td th:text="${agreement.firstOrder.price}">price</td>
                 <td th:text="${agreement.isPerformed}">false</td>
+                <td th:text="${agreement.isCancelled}">false</td>
                 <td th:text="${#temporals.format(agreement.createdAt, 'dd-MM-yyyy HH:mm')}">date</td>
             </tr>
             </tbody>
