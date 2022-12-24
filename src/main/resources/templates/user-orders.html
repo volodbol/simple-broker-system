@@ -35,7 +35,8 @@
                 <td th:text="${order.isSessionActive}">false</td>
                 <td th:text="${#temporals.format(order.createdAt, 'dd-MM-yyyy HH:mm')}">date</td>
                 <td>
-                    <a class="btn btn-primary" th:href="@{|/orders/${order.id}/agreements|}" role="button">Agreements</a>
+                    <a class="btn btn-primary" th:href="@{|/orders/${order.id}/agreements|}"
+                       role="button">Agreements</a>
                 </td>
             </tr>
             </tbody>
