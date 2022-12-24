@@ -1,6 +1,7 @@
 package com.task.broker.controller;
 
 import com.task.broker.model.Order;
+import com.task.broker.publisher.OrderSessionChangedEventPublisher;
 import com.task.broker.service.OrderAgreementService;
 import com.task.broker.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class AdminOrderController {
 
     private final OrderAgreementService orderAgreementService;
 
+    private final OrderSessionChangedEventPublisher sessionChangedEventPublisher;
+
     @GetMapping("/orders")
     public String getAllOrders(Model model) {
         model.addAttribute("orders", orderService.findAll());
@@ -28,7 +31,10 @@ public class AdminOrderController {
 
     @GetMapping("/orders/{id}/agreements")
     public String getOrderAgreements(@PathVariable(name = "id") Long orderId, Model model) {
-        model.addAttribute("agreements", orderAgreementService.findAllByMainOrder(orderId));
+        Order order = orderService.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find order with id - " + orderId));
+        model.addAttribute("orderType", orderService.getOppositeOrderType(order));
+        model.addAttribute("agreements", orderAgreementService.findAllByOrder(order));
         return "admin-order-agreements";
     }
 
@@ -39,6 +45,7 @@ public class AdminOrderController {
         Boolean changedSessionState = !order.getIsSessionActive();
         order.setIsSessionActive(changedSessionState);
         orderService.updateOrder(order);
+        sessionChangedEventPublisher.publishOrderSessionChangedEvent(order);
         return "redirect:/admin/orders";
     }
 
