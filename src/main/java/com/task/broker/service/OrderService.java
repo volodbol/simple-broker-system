@@ -4,6 +4,7 @@ import com.task.broker.dto.OrderDto;
 import com.task.broker.mapper.OrderMapper;
 import com.task.broker.model.ApplicationUser;
 import com.task.broker.model.Order;
+import com.task.broker.model.OrderType;
 import com.task.broker.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,22 @@ public class OrderService {
 
     public List<Order> findAllByApplicationUser(ApplicationUser applicationUser) {
         return orderRepository.findAllByApplicationUser(applicationUser);
+    }
+
+    public List<Order> findOrdersForAgreement(Order order) {
+        if (order.getOrderType() == OrderType.BUY) {
+            return orderRepository.findAllMatchedOrders(
+                    OrderType.SELL, order.getOrderInstrument(), order.getAmount(), order.getPrice());
+        }
+        return orderRepository.findAllMatchedOrders(
+                OrderType.BUY, order.getOrderInstrument(), order.getAmount(), order.getPrice());
+    }
+
+    public OrderType getOppositeOrderType(Order order) {
+        if (order.getOrderType() == OrderType.SELL) {
+            return OrderType.BUY;
+        }
+        return OrderType.SELL;
     }
 
 }
