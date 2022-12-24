@@ -1,6 +1,7 @@
 package com.task.broker.controller;
 
 import com.task.broker.model.Order;
+import com.task.broker.model.OrderAgreement;
 import com.task.broker.publisher.OrderSessionChangedEventPublisher;
 import com.task.broker.service.OrderAgreementService;
 import com.task.broker.service.OrderService;
@@ -34,8 +35,18 @@ public class AdminOrderController {
         Order order = orderService.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find order with id - " + orderId));
         model.addAttribute("orderType", orderService.getOppositeOrderType(order));
+        model.addAttribute("orderId", orderId);
         model.addAttribute("agreements", orderAgreementService.findAllByOrder(order));
         return "admin-order-agreements";
+    }
+
+    @PostMapping("/orders/{orderId}/agreements/{agreementId}")
+    public String confirmAgreement(@PathVariable Long orderId, @PathVariable Long agreementId, Model model) {
+        OrderAgreement orderAgreement = orderAgreementService.findById(agreementId)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find agreement with id - " + agreementId));
+        orderAgreement.setIsPerformed(true);
+        orderAgreementService.updateOrderAgreement(orderAgreement);
+        return String.format("redirect:/admin/orders/%s/agreements", orderId);
     }
 
     @PostMapping("/orders/{id}/session")

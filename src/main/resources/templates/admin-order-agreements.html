@@ -24,6 +24,7 @@
                 <th scope="col">Performed</th>
                 <th scope="col">Canceled</th>
                 <th scope="col">Date</th>
+                <th scope="col">Confirm</th>
             </tr>
             </thead>
             <tbody>
@@ -35,6 +36,17 @@
                 <td th:text="${agreement.isPerformed}">false</td>
                 <td th:text="${agreement.isCancelled}">false</td>
                 <td th:text="${#temporals.format(agreement.createdAt, 'dd-MM-yyyy HH:mm')}">date</td>
+                <td>
+                    <form th:action="@{|/admin/orders/${orderId}/agreements/${agreement.id}|}" method="post">
+                        <button th:if="${agreement.isPerformed || agreement.isCancelled}" type="submit"
+                                class="btn btn-success" disabled>
+                            Confirm
+                        </button>
+                        <button th:if="${!agreement.isPerformed && !agreement.isCancelled}" type="submit"
+                                class="btn btn-success">Confirm
+                        </button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

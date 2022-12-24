@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,8 +18,16 @@ public class OrderAgreementService {
 
     private final OrderService orderService;
 
+    public Optional<OrderAgreement> findById(Long id) {
+        return orderAgreementRepository.findById(id);
+    }
+
     public List<OrderAgreement> findAllByOrder(Order order) {
         return orderAgreementRepository.findAllByOrder(order);
+    }
+
+    public OrderAgreement updateOrderAgreement(OrderAgreement orderAgreement) {
+        return orderAgreementRepository.save(orderAgreement);
     }
 
     public void createMatchedAgreements(Order order) {
