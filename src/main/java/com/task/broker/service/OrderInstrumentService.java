@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,10 @@ public class OrderInstrumentService {
 
     public List<OrderInstrument> findAll() {
         return orderInstrumentRepository.findAll();
+    }
+
+    public Optional<OrderInstrument> findByName(String name) {
+        return orderInstrumentRepository.findByInstrumentName(name);
     }
 
 }
