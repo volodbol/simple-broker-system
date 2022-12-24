@@ -32,15 +32,14 @@ public class OrderAgreement {
     private Long id;
 
     @OneToOne
-    private ApplicationUser applicationUser;
+    private Order firstOrder;
 
     @OneToOne
-    private Order mainOrder;
-
-    @OneToOne
-    private Order proposedOrder;
+    private Order secondOrder;
 
     private Boolean isPerformed;
+
+    private Boolean isCancelled;
 
     private LocalDateTime createdAt;
 
@@ -57,14 +56,12 @@ public class OrderAgreement {
         OrderAgreement that = (OrderAgreement) o;
 
         if (!id.equals(that.id)) return false;
-        if (!applicationUser.equals(that.applicationUser)) return false;
         return Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + applicationUser.hashCode();
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
