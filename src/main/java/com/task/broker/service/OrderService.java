@@ -7,6 +7,8 @@ import com.task.broker.model.Order;
 import com.task.broker.model.OrderType;
 import com.task.broker.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 
     public Order saveOrder(OrderDto orderDto, ApplicationUser applicationUser) {
