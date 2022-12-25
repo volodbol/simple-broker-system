@@ -1,10 +1,10 @@
 # Simple Broker System
 
-Task description [here](Task-Description.pdf)
+Task description - [here](Task-Description.pdf)
 
 Test coverage - 70%
 
-Deployed application link -
+Deployed application link - http://44.210.115.207:8080/
 
 Default credentials (login/password)
 
