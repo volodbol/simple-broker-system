@@ -49,7 +49,7 @@ public class AdminOrderController {
     }
 
     @PostMapping("/orders/{orderId}/agreements/{agreementId}")
-    public String confirmAgreement(@PathVariable Long orderId, @PathVariable Long agreementId, Model model) {
+    public String confirmAgreement(@PathVariable Long orderId, @PathVariable Long agreementId) {
         OrderAgreement orderAgreement = orderAgreementService.findById(agreementId)
                 .orElseThrow(() -> new IllegalArgumentException("Can't find agreement with id - " + agreementId));
         orderAgreement.setIsPerformed(true);
