@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ApplicationUserService {
 
-    private static final int PASSWORD_MIN_LENGTH = 3;
+    private static final int PASSWORD_MIN_LENGTH = 4;
 
     private final ApplicationUserRepository applicationUserRepository;
 
