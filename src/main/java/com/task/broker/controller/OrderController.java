@@ -30,7 +30,7 @@ public class OrderController {
     private final OrderAgreementService orderAgreementService;
 
     @GetMapping
-    public String allOrders(Model model, @AuthenticationPrincipal ApplicationUser applicationUser) {
+    public String getAllOrders(Model model, @AuthenticationPrincipal ApplicationUser applicationUser) {
         List<Order> orders = orderService.findAllByApplicationUser(applicationUser);
         model.addAttribute("orders", orders);
         return "user-orders";
