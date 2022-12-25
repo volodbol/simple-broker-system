@@ -40,8 +40,8 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public List<Order> findAllByApplicationUser(ApplicationUser applicationUser) {
-        return orderRepository.findAllByApplicationUser(applicationUser);
+    public Page<Order> findAllByApplicationUser(ApplicationUser applicationUser, Pageable pageable) {
+        return orderRepository.findAllByApplicationUser(applicationUser, pageable);
     }
 
     public List<Order> findOrdersForAgreement(Order order) {

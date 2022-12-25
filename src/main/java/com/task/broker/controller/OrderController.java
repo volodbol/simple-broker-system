@@ -7,6 +7,8 @@ import com.task.broker.service.OrderAgreementService;
 import com.task.broker.service.OrderInstrumentService;
 import com.task.broker.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +17,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 public class OrderController {
+
+    private static final int PAGE_SIZE = 10;
 
     private final OrderService orderService;
 
@@ -30,8 +33,14 @@ public class OrderController {
     private final OrderAgreementService orderAgreementService;
 
     @GetMapping
-    public String getAllOrders(Model model, @AuthenticationPrincipal ApplicationUser applicationUser) {
-        List<Order> orders = orderService.findAllByApplicationUser(applicationUser);
+    public String getAllOrders(
+            Model model,
+            @AuthenticationPrincipal ApplicationUser applicationUser,
+            @RequestParam(name = "page", defaultValue = "0") Integer page) {
+        Page<Order> orders = orderService.findAllByApplicationUser(
+                applicationUser, Pageable.ofSize(PAGE_SIZE).withPage(page));
+        model.addAttribute("pageNumber", page);
+        model.addAttribute("pages", orders.getTotalPages());
         model.addAttribute("orders", orders);
         return "user-orders";
     }

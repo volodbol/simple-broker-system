@@ -4,6 +4,8 @@ import com.task.broker.model.ApplicationUser;
 import com.task.broker.model.Order;
 import com.task.broker.model.OrderInstrument;
 import com.task.broker.model.OrderType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findAllByApplicationUser(ApplicationUser applicationUser);
+    Page<Order> findAllByApplicationUser(ApplicationUser applicationUser, Pageable pageable);
 
     @Query("select o from Order o " +
             "where o.isSessionActive = true and o.orderType = ?1 and o.orderInstrument = ?2" +
