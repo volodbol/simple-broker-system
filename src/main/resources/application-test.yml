@@ -1,0 +1,7 @@
+spring:
+  sql:
+    init:
+      mode: NEVER
+  jpa:
+    hibernate:
+      ddl-auto: 'create-drop'
