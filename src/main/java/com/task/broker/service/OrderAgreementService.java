@@ -5,6 +5,9 @@ import com.task.broker.model.OrderAgreement;
 import com.task.broker.repository.OrderAgreementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,7 @@ public class OrderAgreementService {
         return orderAgreementRepository.save(orderAgreement);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public void createMatchedAgreements(Order order) {
         List<OrderAgreement> orderAgreements = orderService.findOrdersForAgreement(order).stream()
                 .map(secondOrder -> OrderAgreement.builder()
@@ -42,6 +46,7 @@ public class OrderAgreementService {
         orderAgreementRepository.saveAll(orderAgreements);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     public void closeNotPerformedAgreements(Order order) {
         List<OrderAgreement> notPerformedOrderAgreements = orderAgreementRepository
                 .findAllByOrderAndIsPerformedFalse(order);
