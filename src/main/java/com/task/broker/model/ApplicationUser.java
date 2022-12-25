@@ -41,7 +41,7 @@ public class ApplicationUser implements UserDetails {
 
     private String password;
 
-    private BigDecimal wallet;
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole applicationUserRole;
@@ -63,7 +63,7 @@ public class ApplicationUser implements UserDetails {
         if (!id.equals(that.id)) return false;
         if (!login.equals(that.login)) return false;
         if (!password.equals(that.password)) return false;
-        return wallet.equals(that.wallet);
+        return balance.equals(that.balance);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ApplicationUser implements UserDetails {
         int result = id.hashCode();
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + wallet.hashCode();
+        result = 31 * result + balance.hashCode();
         return result;
     }
 
